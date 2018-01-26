@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+	<!-- 开启注解扫描 ,但是只扫描spring mvc相关的注解，也就是只扫描@Controller注解，因为我们配置的分层的applicationContext 
+		上下文 ，DispatcherServlet上下文， 只管理@Controller类型的bean， 忽略其他型的bean, 如@Service -->
+	<context:component-scan base-package="com.wx.springmvc">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- HandlerMapping 处理器映射器, 无需配置， Spring MVC可以默认启动。默认启用的是org.springframework.web.servlet.mvc.
+	annotation.DefaultAnnotationHandlerMapping      但是DefaultAnnotationHandlerMapping从spring3.2开始过期废弃了，
+	如果想要手动配置，spring推荐使用 org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping  
+	 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/> -->
+	
+	<!-- handlerAdapter 处理器适配器 ，无需手动配置 ，因为spring mvc可以默认配置，默认启用的是org.springframework.web.servlet.
+	mvc.annotation.AnnotationMethodHandlerAdapter ，但是AnnotationMethodHandlerAdapter从spring3.2之后已经过期废弃了，不推荐使用
+	如果想要手动配置，spring推荐使用org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter
+	 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/> -->
+	
+	<!-- 注解驱动， 如果添加配置了标签 mvc:annotation-driven ，则相当于配置上面配置的 HandlerMapping处理器映射器(org.springframework.web.servlet.mvc.method.annotation.
+	RequestMappingHandlerMapping) 	和 handlerAdapter处理器适配器(org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter)	-->
+	<mvc:annotation-driven />
+	
+	<!-- viewResolver 视图解析器  默认不需要配置，spring mvc默认自动配置org.springframework.web.servlet.view.
+	InternalResourceViewResolver作为视图解析器，但是使用默认配置时，controller返回页面路径是需要写jsp页面的完整路径（例如：/WEB-INF/jsp/itemList.jsp），
+	这样写起来很麻烦。    如果手动配置视图解析器，可以利用InternalResourceViewResolver类的prefix（前缀）、suffix（后缀）等属性，这样就
+	在返回页面路径时就可以省略前缀、后缀等，简写（例如写成这样：itemList）  -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- 前缀 -->
+		<property name="prefix" value="/WEB-INF/jsp/"/>
+		<!-- 后缀 -->
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<!-- 静态资源处理， css， js， imgs 该配置可以使spring mvc忽略对静态文件的拦截过滤-->
+	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
+
+</beans>

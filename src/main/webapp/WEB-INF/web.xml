@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="schedule-console" version="3.0">
+
+	<display-name>Archetype Created Web Application</display-name>
+
+	<!-- Spring应用上下文， 理解层次化的ApplicationContext -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	
+	<!-- spring applicationContext.xml配置文件的监听器，加载spring的配置文件 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 配置前端控制器 -->
+	<servlet>
+		<servlet-name>spring-mvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<!-- 默认找 WEB-INF目录下[<servlet-name>标签中的名称]-servlect.xml 的文件 例：spring-mvc-servlet.xml -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>spring-mvc</servlet-name>
+		<!-- springmvc连接规则 1. /* 这种配置拦截所有（包括jsp、js、图片格式、css样式等），因此不会用 /* （强烈不推荐使用 
+			） 2. *.action 或 *.do 拦截已.action或.do结尾的请求，可以这样使用 （肯定可以使用） 3. / 拦截所有（但是不包括jsp） 
+			（包含 .js .peng .jpg .css 等） 一般用的时候需要设置对静态文件放行 可以这样使用 （强烈推荐使用） 4. /XXX/* 可以使用 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
