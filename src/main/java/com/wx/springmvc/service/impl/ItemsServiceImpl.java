@@ -26,4 +26,9 @@ public class ItemsServiceImpl implements ItemsService {
 	public Items selectById(Integer id) {
 		return itemsDao.selectById(id);
 	}
+
+	@Override
+	public void update(Items items) {
+		itemsDao.update(items);
+	}
 }

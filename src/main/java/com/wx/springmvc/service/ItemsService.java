@@ -11,4 +11,5 @@ public interface ItemsService {
 	
 	public Items selectById(Integer id); 
 	
+	public void update(Items items);
 }

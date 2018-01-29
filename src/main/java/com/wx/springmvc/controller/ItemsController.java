@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.wx.springmvc.entity.Items;
 import com.wx.springmvc.entity.ItemsExample;
+import com.wx.springmvc.entity.QueryVo;
 import com.wx.springmvc.service.ItemsService;
 
 @Controller
@@ -89,7 +90,40 @@ public class ItemsController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("item", item);
 		modelAndView.setViewName("editItem");
+//		modelAndView.setViewName("editItemQueryVo");
 		return modelAndView;
 	}
-
+	
+	/*
+	 * 普通的pojo对象中的属性名和表单中input的name属性一致
+	 * 请求的参数名称name和pojo的属性名称一致，会自动将请求参数赋值给pojo的属性
+	 * editItem.jsp
+	 * 转发是服务器发起的，url地址栏无变化，重定向是客户端发起的，相当于请求了两次，url会变化
+	 * 注意转发和重定向url时有斜线/和没有斜线的区别，有斜线是项目级别，无斜线是类级别下的
+	 * 需要注意，转发的时候请求方式method,重定向不需要区分请求的method，但是转发需要转发发起的方法的method与转发到的方法的method一致
+	 */
+	@RequestMapping(value="update",method=RequestMethod.POST)
+	public String update(Items items,Model model) {
+		itemService.update(items);
+		//直接返回到success.jsp页面
+//		return "success";
+		//以重定向的方式跳转页面(当前类级别下重定向)
+		return "redirect:list";
+		//项目级别下，不同的controller之间重定向
+//		return "redirect:/item/list";
+		//在当前类级别下转发
+//		return "forward:list";
+		//从项目级别的转发，不同的controller类的RequestMapping级别开始的
+//		return "forward:/item/list";
+	}
+	
+	/*
+	 * 使用包装的poji，QueryVo包含属性Items，页面input中的name属性应该改为QueryVo中的属性items.xxx,xxx为Items类中的属性
+	 * editItemQueryVo.jsp
+	 */
+	@RequestMapping(value="updateByQueryVo",method=RequestMethod.POST)
+	public String updateByQueryVo(QueryVo queryVo) {
+		itemService.update(queryVo.getItems());
+		return "success";
+	}
 }

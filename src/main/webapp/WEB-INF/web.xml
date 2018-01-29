@@ -6,7 +6,8 @@
 
 	<display-name>Archetype Created Web Application</display-name>
 
-	<!-- Spring应用上下文， 理解层次化的ApplicationContext -->
+	<!-- Spring应用上下文， 理解层次化的ApplicationContext (将spring 和 spring mvc 的配置文件分离出来) -->
+	<!-- ContextLoaderListener监听器对应的参数配置,也就是spring配置文件的存放位置 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:applicationContext.xml</param-value>
@@ -16,13 +17,32 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
+	<!-- 配置处理post请求提交的乱码问题过滤器 -->
+	<filter>
+		<filter-name>characterEncoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<!-- 切记需要配置字符集参数 -->
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	
+	<!-- psot请求提交乱码问题过滤器的拦截规则 -->
+	<filter-mapping>
+		<filter-name>characterEncoding</filter-name>
+		<!-- 拦截规则和前端控制器DispatcherServlet不一样，这里需要配置成/* -->
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 	<!-- 配置前端控制器 -->
 	<servlet>
 		<servlet-name>spring-mvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
-			<!-- 默认找 WEB-INF目录下[<servlet-name>标签中的名称]-servlect.xml 的文件 例：spring-mvc-servlet.xml -->
+			<!-- 默认找 WEB-INF目录下[<servlet-name>标签中的名称]-servlect.xml 的文件 例：spring-mvc-servlet.xml
+			也可以像下面一样通过配置contextConfigLocation直接指定spring mvc配置文件的位置 -->
 			<param-name>contextConfigLocation</param-name>
 			<param-value>classpath:spring-mvc.xml</param-value>
 		</init-param>

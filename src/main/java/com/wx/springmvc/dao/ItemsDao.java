@@ -11,4 +11,6 @@ public interface ItemsDao {
 	
 	public Items selectById(Integer id); 
 	
+	public void update(Items items);
+	
 }

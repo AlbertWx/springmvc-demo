@@ -23,5 +23,13 @@ public class ItemsDaoImpl implements ItemsDao {
 	public Items selectById(Integer id) {
 		return itemsMapper.selectByPrimaryKey(id);
 	}
+
+	@Override
+	public void update(Items items) {
+		// TODO Auto-generated method stub
+		ItemsExample example = new ItemsExample();
+		example.createCriteria().andIdEqualTo(items.getId());
+		itemsMapper.updateByExampleSelective(items, example);
+	}
 	
 }

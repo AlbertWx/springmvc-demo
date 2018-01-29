@@ -29,7 +29,19 @@
 	
 	<!-- 注解驱动， 如果添加配置了标签 mvc:annotation-driven ，则相当于配置上面配置的 HandlerMapping处理器映射器(org.springframework.web.servlet.mvc.method.annotation.
 	RequestMappingHandlerMapping) 	和 handlerAdapter处理器适配器(org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter)	-->
-	<mvc:annotation-driven />
+	<!-- conversion-service标签，配置数据格式转换的服务 -->
+	<mvc:annotation-driven conversion-service="formattingConversionServiceFactoryBean"/>
+	
+	<!-- 配置Conveter转换器 转换数据格式（日期、去空格等等） -->
+	<bean id="formattingConversionServiceFactoryBean" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<!-- 配置多个转换器 -->
+		<property name="converters">
+			<list>
+				<!-- 自定义的日期格式转换类   可配置多个不同数据格式的转换器-->
+				<bean class="com.wx.springmvc.conversion.DateConverter"/>
+			</list>
+		</property>
+	</bean>
 	
 	<!-- viewResolver 视图解析器  默认不需要配置，spring mvc默认自动配置org.springframework.web.servlet.view.
 	InternalResourceViewResolver作为视图解析器，但是使用默认配置时，controller返回页面路径是需要写jsp页面的完整路径（例如：/WEB-INF/jsp/itemList.jsp），
