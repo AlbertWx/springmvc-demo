@@ -31,7 +31,7 @@ public class ItemsController {
 	@Autowired
 	private ItemsService itemService;
 
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(value = "list", method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView itemList() {
 		ItemsExample itemsExample = new ItemsExample();
 		List<Items> list = itemService.selectByExample(itemsExample);

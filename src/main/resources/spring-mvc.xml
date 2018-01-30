@@ -56,5 +56,8 @@
 	
 	<!-- 静态资源处理， css， js， imgs 该配置可以使spring mvc忽略对静态文件的拦截过滤-->
 	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
-
+	
+	<!-- 自定义的spring mvc的异常处理器 -->
+	<bean class="com.wx.springmvc.exception.CustomExceptionResolver"></bean>
+	
 </beans>

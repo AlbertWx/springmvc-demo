@@ -25,6 +25,17 @@ public class ItemsEditController {
 	@Resource
 	private ItemsService itemsService;
 	
+	/**
+	 * controller内方法的返回值类型：
+	 * 1.ModelAndView  该返回类型为万能的，包括数据和返回视图的路径   (一般不建议)
+	 * 2.String  返回视图的路径名，但是这种方式需要在方法声明的形参上声明Model model或者ModelMap modelMap,然后在方法中向model或
+	 * 		modelMap中添加数据，以把数据显示到页面视图中     (官方推荐此种方式  解耦  数据和视图分离，MVC)
+	 * 3.void  该中方式需要在controller方法声明的参数中添加HttpServletRequest request, HttpServletResponse response,
+	 * 		Model model等参数，通过Model model添加数据，通过request和response以转发或者重定向的方式跳转到对应的页面视图,此种
+	 * 		方式一般用于ajax异步请求中
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="list",method=RequestMethod.GET)
 	public String editByQueryVoList(Model model) {
 		ItemsExample itemsExample = new ItemsExample();
