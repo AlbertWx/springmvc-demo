@@ -31,4 +31,16 @@ public class ItemsServiceImpl implements ItemsService {
 	public void update(Items items) {
 		itemsDao.update(items);
 	}
+
+	@Override
+	public void deleteByIds(List<Integer> list) {
+		// TODO Auto-generated method stub
+		itemsDao.deleteByIds(list);
+	}
+
+	@Override
+	public void updateByBatch(List<Items> itemsList) {
+		// TODO Auto-generated method stub
+		itemsDao.updateByBatch(itemsList);
+	}
 }

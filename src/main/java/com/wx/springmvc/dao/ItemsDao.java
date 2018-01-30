@@ -13,4 +13,8 @@ public interface ItemsDao {
 	
 	public void update(Items items);
 	
+	public void deleteByIds(List<Integer> list);
+	
+	public void updateByBatch(List<Items> itemsList);
+	
 }

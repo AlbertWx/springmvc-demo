@@ -1,5 +1,6 @@
 package com.wx.springmvc.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -125,5 +126,25 @@ public class ItemsController {
 	public String updateByQueryVo(QueryVo queryVo) {
 		itemService.update(queryVo.getItems());
 		return "success";
+	}
+	
+	/*
+	 * <input type="checkbox" name="ids" value="${item.id }">
+	 * 删除页面checkbox选中的商品,选中多条，以数组方式传递选中的多个ids参数
+	 */
+	@RequestMapping(value="delete",method=RequestMethod.POST)
+	public String deleteByIds(Integer[] ids) {
+		logger.info("=============ids :" + ids.toString());
+		List<Integer> list = Arrays.asList(ids);
+		itemService.deleteByIds(list);
+		return "redirect:list";
+	}
+	
+	@RequestMapping(value="deleteByQueryVo",method=RequestMethod.POST)
+	public String deleteByIdsQueryVo(QueryVo queryVo) {
+		logger.info("=============ids :" + queryVo.getIds().toString());
+		List<Integer> list = Arrays.asList(queryVo.getIds());
+		itemService.deleteByIds(list);
+		return "redirect:list";
 	}
 }

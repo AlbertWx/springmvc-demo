@@ -31,5 +31,23 @@ public class ItemsDaoImpl implements ItemsDao {
 		example.createCriteria().andIdEqualTo(items.getId());
 		itemsMapper.updateByExampleSelective(items, example);
 	}
+
+	@Override
+	public void deleteByIds(List<Integer> list) {
+		// TODO Auto-generated method stub
+		ItemsExample example = new ItemsExample();
+		example.createCriteria().andIdIn(list);
+		itemsMapper.deleteByExample(example);
+	}
+
+	@Override
+	public void updateByBatch(List<Items> itemsList) {
+		// TODO Auto-generated method stub
+		for (Items items : itemsList) {
+			ItemsExample example = new ItemsExample();
+			example.createCriteria().andIdEqualTo(items.getId());
+			itemsMapper.updateByExampleSelective(items, example);
+		}
+	}
 	
 }
