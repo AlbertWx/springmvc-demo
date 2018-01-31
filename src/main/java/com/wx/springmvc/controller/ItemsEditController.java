@@ -1,6 +1,12 @@
 package com.wx.springmvc.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -10,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wx.springmvc.entity.Items;
 import com.wx.springmvc.entity.ItemsExample;
@@ -51,13 +58,50 @@ public class ItemsEditController {
 	 * https://www.cnblogs.com/liusonglin/p/4895694.html
 	 * 通过在QueryVo类中声明List<Items> itemsList；然后在页面的c:forEach标签中添加varStatus="s"作为list的索引，
 	 * 然后name="itemsList[${s.index}].id"以list集合索引下标的方法选中去list中的对象
-	 */
+	 * 
+	 * 上传文件的form表单类型必须设置为 enctype="multipart/form-data"
+	 * 
+	 */ 
+	 
 	@RequestMapping(value="update",method=RequestMethod.POST)
-	public String updateByQueryVoList(QueryVo queryVo) {
+	public String updateByQueryVoList(Items items,MultipartFile pictureFile) throws Exception {
+		//pictureFile为页面中input type="file"  name="pictureFile",如果想设置形参名称与页面input的name值不一样，可以
+		//MultipartFile pictureFile加@RequestParam("页面input的name值")进行绑定
+		
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		String dateString = df.format(new Date());
+		
+		String originalFilename = pictureFile.getOriginalFilename();
+		File file = new File("F:\\pic"+File.separator+dateString+originalFilename);
+		//将上传的文件保存到磁盘的目录
+		pictureFile.transferTo(file);
+		logger.info("================图片路径："+file.getAbsolutePath());
+		items.setPic(file.getName());
+		itemsService.update(items);
+		return "redirect:edit?id="+items.getId();
+	}
+	
+	/*
+	 * 批量修改 
+	 * https://www.cnblogs.com/liusonglin/p/4895694.html
+	 * 通过在QueryVo类中声明List<Items> itemsList；然后在页面的c:forEach标签中添加varStatus="s"作为list的索引，
+	 * 然后name="itemsList[${s.index}].id"以list集合索引下标的方法选中去list中的对象
+	 */
+	@RequestMapping(value="updateBatch",method=RequestMethod.POST)
+	public String updateByQueryVoListBatch(QueryVo queryVo) throws Exception {
 		
 		List<Items> itemsList = queryVo.getItemsList();
 		itemsService.updateByBatch(itemsList);
 		return "redirect:list";
 	}
 	
+	/*
+	 * 跳转到到修改页面，并上传图片
+	 */
+	@RequestMapping("edit")
+	public String edit(Integer id,Model model) {
+		Items item = itemsService.selectById(id);
+		model.addAttribute("item", item);
+		return "editItemFile";
+	}
 }
