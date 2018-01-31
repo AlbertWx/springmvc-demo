@@ -32,7 +32,7 @@
 	<!-- conversion-service标签，配置数据格式转换的服务 -->
 	<mvc:annotation-driven conversion-service="formattingConversionServiceFactoryBean"/>
 	
-	<!-- 配置Conveter转换器 转换数据格式（日期、去空格等等） -->
+	<!-- 配置Conveter转换器 转换数据格式（日期、去空格等等）spring mvc会通过判断绑定参数的类型自动选择数据对应格式的格式转换器 -->
 	<bean id="formattingConversionServiceFactoryBean" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<!-- 配置多个转换器 -->
 		<property name="converters">
@@ -55,9 +55,17 @@
 	</bean>
 	
 	<!-- 静态资源处理， css， js， imgs 该配置可以使spring mvc忽略对静态文件的拦截过滤-->
-	<!-- <mvc:resources mapping="/resources/**" location="/resources/" /> -->
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 	
 	<!-- 自定义的spring mvc的异常处理器 -->
 	<bean class="com.wx.springmvc.exception.CustomExceptionResolver"></bean>
+	
+	<!-- 文件上传的配置类 此类的配置id的名称的固定的，必须为 multipartResolver-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 上传文件的大小的最大值，单位为b,字节 -->
+		<property name="maxUploadSize" value="5242880"></property>
+		<!-- 默认编码格式 -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
 	
 </beans>
