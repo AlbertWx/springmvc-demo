@@ -19,7 +19,7 @@
 </form>
 商品列表：
 <%-- <form action="${pageContext.request.contextPath }/item/delete" method="post"> 通过数值传值--%>
-<form action="${pageContext.request.contextPath }/itemEdit/update" method="post">
+<form action="${pageContext.request.contextPath }/itemEdit/updateBatch" method="post">
 <table width="100%" border=1>
 <tr>
 	<td><input type="checkbox" name="ids" value=""></td>
@@ -39,7 +39,7 @@
 	<td><fmt:formatDate value="${item.createtime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	<td><input type="texts" name="itemsList[${s.index}].detail" value="${item.detail}"></td>
 	
-	<td><a href="${pageContext.request.contextPath }/item/edit?id=${item.id}">修改</a></td>
+	<td><a href="${pageContext.request.contextPath }/itemEdit/edit?id=${item.id}">修改</a></td>
 
 </tr>
 </c:forEach>

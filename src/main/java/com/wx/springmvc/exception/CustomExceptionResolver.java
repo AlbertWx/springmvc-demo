@@ -32,11 +32,25 @@ public class CustomExceptionResolver implements HandlerExceptionResolver {
 		log.info(ex.getMessage());
 		log.info(ex.toString());
 		log.info("===========打印异常的信息，结束===========");
+		
 		ModelAndView modelAndView = new ModelAndView();
+		
+		//判断是否是自定义的异常
+		if(ex instanceof CustomException) {
+			//如果是自定义的异常，说明知道异常的原因
+			CustomException ce = (CustomException) ex;
+			//已知的异常的信息，在异常的产生抛出的地方已经说明了原因，展示到页面
+			modelAndView.addObject("error", ce.getMessage());
+		}else {
+			// 未知的异常信息， 展示到页面
+			modelAndView.addObject("error", "未知错误！！！");//EL表达式
+		}
+		
+		
 		//设置跳转视图
 		modelAndView.setViewName("error");
-		//添加展示数据信息
-		modelAndView.addObject("error", "未知错误！！！");
+//		//添加展示数据信息
+//		modelAndView.addObject("error", "未知错误！！！");
 		log.info("===========执行spring mvc的自定义异常处理类结束===========");
 		return modelAndView;
 	}
