@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,5 +54,19 @@ public class JsonController {
 	public @ResponseBody Items json(@RequestBody Items items) {
 		log.info(items.toString());
 		return items;
+	}
+	
+	/**
+	 * restful风格
+	 * @param id
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="restful/{id}")
+	public String json(@PathVariable Integer id,Model model) {
+		log.info("================id : " + id);
+		Items item = itemsService.selectById(id);
+		model.addAttribute("item", item);
+		return "editItemJson";
 	}
 }

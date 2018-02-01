@@ -68,4 +68,29 @@
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 	
+	<!-- spring mvc的拦截器配置 -->
+	<mvc:interceptors>
+		<!-- 可以配置多个拦截器  执行规则为从上到下  -->
+		<!-- 自定义拦截器一 ,测试拦截器的执行顺序和规则-->
+		<mvc:interceptor>
+			<!-- 拦截规则    /** 表示拦截所有-->
+			<mvc:mapping path="/**"/>
+			<!-- 自定义的拦截器类 -->
+			<bean class="com.wx.springmvc.interceptor.InterceptorOne"></bean>
+		</mvc:interceptor>
+		<!-- 自定义拦截器二 ,测试拦截器的执行顺序和规则 -->
+		<mvc:interceptor>
+			<!-- 拦截规则    /** 表示拦截所有-->
+			<mvc:mapping path="/**"/>
+			<!-- 自定义的拦截器类 -->
+			<bean class="com.wx.springmvc.interceptor.InterceptorTwo"></bean>
+		</mvc:interceptor>
+		<!-- 测试登录的拦截器 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean class="com.wx.springmvc.interceptor.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
 </beans>
