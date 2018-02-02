@@ -8,10 +8,15 @@
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 	
-	<!-- 加载数据库配置文件  方式一-->
+	<!-- 加载数据库配置文件  方式一
+	此种方式下，如果多个配置文件，可以配置多个<context:property-placeholder-->
 	<!-- <context:property-placeholder location="classpath:db.properties"/> -->
 	
 	<!-- 方式二 可配置多个 -->
+	<!-- 此种方式可以读取properties，可以在声明类的成员变量时使用：
+		1、@Value("#{configProperties['key']}")
+		2、@Value("${key}")   这两种方式获取properties文件中的对用key的值 
+		详情见：http://blog.csdn.net/u010832551/article/details/73826914-->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>

@@ -54,7 +54,10 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
-	<!-- 静态资源处理， css， js， imgs 该配置可以使spring mvc忽略对静态文件的拦截过滤-->
+	<!-- 静态资源处理， css， js， imgs 该配置可以使spring mvc忽略对静态文件的拦截过滤
+	mapping="/resources/**" **是防止文件夹里面还有文件夹
+	如果有这些静态资源没有在同一个文件夹下面，可以通过配置多个<mvc:resources 标签实现拦截过滤
+	-->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 	
 	<!-- 自定义的spring mvc的异常处理器 -->
